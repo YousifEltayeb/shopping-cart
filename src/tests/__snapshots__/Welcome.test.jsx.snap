@@ -1,0 +1,19 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Welcome > Welcome message is rendered 1`] = `
+<div>
+  <main
+    aria-label="Welcome"
+  >
+    <h1>
+      Welcome To 
+      <span
+        class="sc-FEMpB cyBtsW"
+      >
+        PickFlick
+      </span>
+       
+    </h1>
+  </main>
+</div>
+`;

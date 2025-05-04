@@ -1,0 +1,11 @@
+<svg width="150" height="25" viewBox="0 0 400 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g clip-path="url(#clip0_2_62)">
+    <path d="M384 0H16C7.16344 0 0 7.16344 0 16V84C0 92.8366 7.16344 100 16 100H384C392.837 100 400 92.8366 400 84V16C400 7.16344 392.837 0 384 0Z" fill="red"></path>
+    <text x="50%" y="75%" font-size="60" font-family="Inter, system-ui, Avenir, Helvetica, Arial, sans-serif" fill="#212020" text-anchor="middle" font-weight="bold">PickFlick</text>
+  </g>
+  <defs>
+    <clipPath id="clip0_2_62">
+      <rect width="400" height="100" fill="white"></rect>
+    </clipPath>
+  </defs>
+</svg>

@@ -1,0 +1,31 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Footer > Footer is rendered 1`] = `
+<div>
+  <footer
+    class="sc-FEMpB bGcbJv"
+  >
+    Made With ❤️ By
+     
+    <a
+      href="https://github.com/YousifTheKind"
+      target="_blank"
+    >
+      Yousif Eltayeb
+    </a>
+    <p
+      style="font-size: 12px;"
+    >
+      As part of the
+       
+      <a
+        href="https://theodinproject.com/"
+        target="_blank"
+      >
+        The Odin Project
+      </a>
+       
+    </p>
+  </footer>
+</div>
+`;
