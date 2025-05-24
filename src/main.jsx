@@ -8,16 +8,16 @@ import Cart from "./routes/Cart";
 import Welcome from "./components/Welcome";
 import ErrorPage from "./components/ErrorPage";
 createRoot(document.getElementById("root")).render(
-    <StrictMode>
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<Root />}>
-                    <Route index element={<Welcome />} />
-                    <Route path="Store" element={<Store />} />
-                    <Route path="Cart" element={<Cart />} />
-                </Route>
-                <Route path="*" element={<ErrorPage />}></Route>
-            </Routes>
-        </BrowserRouter>
-    </StrictMode>
+  <StrictMode>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Root />}>
+          <Route index element={<Welcome />} />
+          <Route path="Store" element={<Store />} />
+          <Route path="Cart" element={<Cart />} />
+        </Route>
+        <Route path="*" element={<ErrorPage />}></Route>
+      </Routes>
+    </BrowserRouter>
+  </StrictMode>,
 );
