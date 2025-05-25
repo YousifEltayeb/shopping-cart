@@ -4,13 +4,38 @@ import { useEffect, useState } from "react";
 const API_KEY = import.meta.env.VITE_TMBD_KEY;
 
 const Main = styled.main`
-  flex: 1 0 auto;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
 `;
 const Card = styled.div``;
+const usePoster = () => {
+  const [baseImgURL, setBaseImgURL] = useState("");
+  const [imgSize, setImgSize] = useState("");
+  useEffect(() => {
+    const url = "https://api.themoviedb.org/3/configuration";
+    const options = {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${API_KEY}`,
+      },
+    };
+
+    fetch(url, options)
+      .then((res) => res.json())
+      .then((json) => {
+        setImgSize(json.images.poster_sizes[0]);
+        setBaseImgURL(json.images.base_url);
+      })
+      .catch((err) => console.error(err));
+  }, [baseImgURL, imgSize]);
+  return { baseImgURL, imgSize };
+};
 const useFilms = () => {
   const [products, setProducts] = useOutletContext();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { baseImgURL, imgSize } = usePoster();
   useEffect(() => {
     const url =
       "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1";
@@ -33,11 +58,14 @@ const useFilms = () => {
           const fetchedFilms = json.results;
           const newProductsArray = [];
           fetchedFilms.forEach((film) => {
+            console.log(baseImgURL);
             const newProduct = {
               id: film.id,
               title: film.title,
-              imgURL: film.poster_path,
+              imgURL: `${baseImgURL}${imgSize}${film.poster_path}`,
               inCart: true,
+              price: 20,
+              quantity: 0,
             };
             newProductsArray.push(newProduct);
           });
@@ -46,28 +74,12 @@ const useFilms = () => {
         .catch((err) => setError(err))
         .finally(() => setLoading(false));
     }
-  }, [products.length, setProducts]);
+  }, [products.length, setProducts, baseImgURL, imgSize]);
   return { products, error, loading };
 };
 const Store = () => {
   const { products, error, loading } = useFilms();
-  console.log(products, loading);
 
-  // useEffect(() => {
-  //   const url = "https://api.themoviedb.org/3/configuration";
-  //   const options = {
-  //     method: "GET",
-  //     headers: {
-  //       accept: "application/json",
-  //       Authorization: `Bearer ${API_KEY}`,
-  //     },
-  //   };
-  //
-  //   fetch(url, options)
-  //     .then((res) => res.json())
-  //     .then((json) => console.log(json))
-  //     .catch((err) => console.error(err));
-  // }, []);
   if (loading) return <Main aria-label="Store">Loading...</Main>;
   if (error)
     return (
@@ -78,11 +90,11 @@ const Store = () => {
     );
   return (
     <Main aria-label="Store">
-      <div>{products[0].title}</div>
       {products.map((product) => {
         return (
           <Card key={product.id}>
             <span>{product.title}</span>
+            <img src={product.imgURL} alt="" />
           </Card>
         );
       })}
