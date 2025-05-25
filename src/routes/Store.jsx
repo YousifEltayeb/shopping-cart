@@ -5,9 +5,32 @@ const API_KEY = import.meta.env.VITE_TMBD_KEY;
 
 const Main = styled.main`
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+
+  gap: 3rem;
+  padding: 1rem;
 `;
-const Card = styled.div``;
+const Card = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+  background-color: #262626;
+  box-shadow:
+    rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+`;
+const Quantity = styled.div`
+  display: flex;
+`;
+const QuantityInput = styled.input`
+  width: 100%;
+`;
+const AddToCartButton = styled.button`
+  background-color: #ff0101;
+  color: black;
+  margin-top: auto;
+`;
 const usePoster = () => {
   const [baseImgURL, setBaseImgURL] = useState("");
   const [imgSize, setImgSize] = useState("");
@@ -24,21 +47,22 @@ const usePoster = () => {
     fetch(url, options)
       .then((res) => res.json())
       .then((json) => {
-        setImgSize(json.images.poster_sizes[0]);
+        setImgSize(json.images.poster_sizes[2]);
         setBaseImgURL(json.images.base_url);
       })
       .catch((err) => console.error(err));
   }, [baseImgURL, imgSize]);
+
   return { baseImgURL, imgSize };
 };
 const useFilms = () => {
   const [products, setProducts] = useOutletContext();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const { baseImgURL, imgSize } = usePoster();
   useEffect(() => {
     const url =
-      "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1";
+      // "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1";
+      "https://api.themoviedb.org/3/discover/movie?with_genres=10751,16&sort_by=vote_average.desc&language=en-US&page=1&vote_count.gte=200";
     const options = {
       method: "GET",
       headers: {
@@ -58,11 +82,10 @@ const useFilms = () => {
           const fetchedFilms = json.results;
           const newProductsArray = [];
           fetchedFilms.forEach((film) => {
-            console.log(baseImgURL);
             const newProduct = {
               id: film.id,
               title: film.title,
-              imgURL: `${baseImgURL}${imgSize}${film.poster_path}`,
+              posterPath: film.poster_path,
               inCart: true,
               price: 20,
               quantity: 0,
@@ -74,11 +97,12 @@ const useFilms = () => {
         .catch((err) => setError(err))
         .finally(() => setLoading(false));
     }
-  }, [products.length, setProducts, baseImgURL, imgSize]);
+  }, [products.length, setProducts]);
   return { products, error, loading };
 };
 const Store = () => {
   const { products, error, loading } = useFilms();
+  const { baseImgURL, imgSize } = usePoster();
 
   if (loading) return <Main aria-label="Store">Loading...</Main>;
   if (error)
@@ -93,8 +117,14 @@ const Store = () => {
       {products.map((product) => {
         return (
           <Card key={product.id}>
-            <span>{product.title}</span>
-            <img src={product.imgURL} alt="" />
+            <img src={baseImgURL + imgSize + product.posterPath} alt="" />
+            <h4>{product.title}</h4>
+            <Quantity>
+              <button>-</button>
+              <QuantityInput type="number" min="0" />
+              <button>+</button>
+            </Quantity>
+            <AddToCartButton>Add to cart</AddToCartButton>
           </Card>
         );
       })}
