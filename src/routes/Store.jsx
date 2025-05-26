@@ -117,6 +117,14 @@ const Store = () => {
   const { products, error, loading } = useFilms();
   const { baseImgURL, imgSize } = usePoster();
 
+  const changeQuantity = (clickedButton) => {
+    const inputFieldElm = clickedButton.parentNode.querySelector("input");
+    if (clickedButton.textContent === "+") {
+      inputFieldElm.value = ++inputFieldElm.value;
+    } else if (clickedButton.textContent === "-" && inputFieldElm.value > 0) {
+      inputFieldElm.value = --inputFieldElm.value;
+    }
+  };
   if (loading) return <Main aria-label="Store">Loading...</Main>;
   if (error)
     return (
@@ -133,9 +141,23 @@ const Store = () => {
             <img src={baseImgURL + imgSize + product.posterPath} alt="" />
             <h4>{product.title}</h4>
             <Quantity>
-              <button>-</button>
-              <QuantityInput type="number" min="0" />
-              <button>+</button>
+              <button
+                id="decrement"
+                onClick={(e) => {
+                  changeQuantity(e.target);
+                }}
+              >
+                -
+              </button>
+              <QuantityInput type="number" />
+              <button
+                id="increment"
+                onClick={(e) => {
+                  changeQuantity(e.target);
+                }}
+              >
+                +
+              </button>
             </Quantity>
             <AddToCartButton>Add to cart</AddToCartButton>
           </Card>
