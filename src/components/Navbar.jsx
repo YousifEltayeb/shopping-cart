@@ -29,7 +29,7 @@ const StyleLinks = styled.div`
 const Img = styled.img`
   width: 150px;
 `;
-const Navbar = ({ products = [] }) => {
+const Navbar = ({ products }) => {
   const numberOfProductsInCart =
     products.filter((product) => product.inCart).length || 0;
   return (

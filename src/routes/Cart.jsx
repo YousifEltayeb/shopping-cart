@@ -1,12 +1,11 @@
 import styled from "styled-components";
-
 import { useOutletContext } from "react-router-dom";
 
 const Main = styled.main`
   flex: 1 0 auto;
 `;
 const Cart = () => {
-  const [products, setProducts] = useOutletContext();
+  const [products] = useOutletContext();
   const inCartProducts = products.filter((product) => product.inCart === true);
   console.log(inCartProducts);
   return (

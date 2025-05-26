@@ -111,12 +111,11 @@ const useFilms = () => {
       .finally(() => setLoading(false));
     // }
   }, [products.length, setProducts]);
-  return { products, error, loading };
+  return { products, setProducts, error, loading };
 };
 const Store = () => {
-  const { products, error, loading } = useFilms();
+  const { products, setProducts, error, loading } = useFilms();
   const { baseImgURL, imgSize } = usePoster();
-
   const changeQuantity = (clickedButton) => {
     const inputFieldElm = clickedButton.parentNode.querySelector("input");
     if (clickedButton.textContent === "+") {
@@ -125,11 +124,19 @@ const Store = () => {
       inputFieldElm.value = --inputFieldElm.value;
     }
   };
-  const addToCart = (filmID) => {
-    const film = products.find((product) => product.id === filmID);
-
-    console.log(film);
-    film.inCart = true;
+  const addToCart = (targetElm, filmID) => {
+    const inputFieldElmValue =
+      targetElm.parentNode.querySelector("input").value;
+    const filmIndex = products.findIndex((product) => product.id === filmID);
+    if (inputFieldElmValue <= 0) {
+      alert("Quantity cannot be 0");
+      return;
+    }
+    const newProducts = [...products];
+    console.log(newProducts[filmIndex]);
+    newProducts[filmIndex].inCart = true;
+    newProducts[filmIndex].quantity = Number(inputFieldElmValue);
+    setProducts(newProducts);
   };
   if (loading) return <Main aria-label="Store">Loading...</Main>;
   if (error)
@@ -166,8 +173,8 @@ const Store = () => {
               </button>
             </Quantity>
             <AddToCartButton
-              onClick={() => {
-                addToCart(product.id);
+              onClick={(e) => {
+                addToCart(e.target, product.id);
               }}
             >
               Add to cart
