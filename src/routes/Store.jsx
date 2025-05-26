@@ -24,6 +24,14 @@ const Quantity = styled.div`
   display: flex;
 `;
 const QuantityInput = styled.input`
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
   width: 100%;
 `;
 const AddToCartButton = styled.button`
