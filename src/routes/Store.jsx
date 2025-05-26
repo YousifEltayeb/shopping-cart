@@ -99,7 +99,7 @@ const useFilms = () => {
             id: film.id,
             title: film.title,
             posterPath: film.poster_path,
-            inCart: true,
+            inCart: false,
             price: 20,
             quantity: 0,
           };
@@ -124,6 +124,12 @@ const Store = () => {
     } else if (clickedButton.textContent === "-" && inputFieldElm.value > 0) {
       inputFieldElm.value = --inputFieldElm.value;
     }
+  };
+  const addToCart = (filmID) => {
+    const film = products.find((product) => product.id === filmID);
+
+    console.log(film);
+    film.inCart = true;
   };
   if (loading) return <Main aria-label="Store">Loading...</Main>;
   if (error)
@@ -159,7 +165,13 @@ const Store = () => {
                 +
               </button>
             </Quantity>
-            <AddToCartButton>Add to cart</AddToCartButton>
+            <AddToCartButton
+              onClick={() => {
+                addToCart(product.id);
+              }}
+            >
+              Add to cart
+            </AddToCartButton>
           </Card>
         );
       })}
