@@ -2,20 +2,49 @@ import styled from "styled-components";
 import { useOutletContext } from "react-router-dom";
 import { Link } from "react-router-dom";
 const Main = styled.main`
-  display: flex;
-  flex: 1 0 auto;
-  justify-content: center;
-  align-items: baseline;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 `;
 const Items = styled.section`
-  display: flex;
+  display: grid;
+  grid-template-rows: repeat(auto-fill, 12rem);
+  padding: 18px;
+  margin-left: 50px;
+  gap: 18px;
 `;
-const Item = styled.div``;
-const Order = styled.section``;
+const Item = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 12rem;
+  align-items: center;
+`;
+const Poster = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: scale-down;
+`;
+const Checkout = styled.button`
+  background-color: red;
+  width: 18rem;
+`;
+const OrderDetails = styled.div`
+  display: flex;
+  gap: 18px;
+`;
+const Order = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 64px;
+`;
 const Cart = () => {
   const [products] = useOutletContext();
   const inCartProducts = products.filter((product) => product.inCart === true);
-  console.log(inCartProducts);
+  const inCartQuantity = inCartProducts.reduce(
+    (currentTotal, { quantity }) => currentTotal + quantity,
+    0,
+  );
+  const orderTotal = inCartQuantity * 20;
   if (inCartProducts.length === 0) {
     return (
       <>
@@ -32,16 +61,23 @@ const Cart = () => {
         {inCartProducts.map((product) => {
           return (
             <Item key={product.id}>
-              {/* <img src={product.path} alt="" /> */}
-              <div>{product.title}</div>
-              <div>{product.quantity}</div>
-              <div>{product.price}</div>
+              <Poster src={product.posterPath} alt="film poster" width="auto" />
+              <h4>{product.title}</h4>
+              <div>{product.quantity}x</div>
+              <div>
+                <b>{product.price}$</b>
+              </div>
             </Item>
           );
         })}
       </Items>
       <Order>
         <h2>Order Summery</h2>
+        <OrderDetails>
+          <h3>Total ({inCartQuantity} items)</h3>
+          <h3>{orderTotal}$</h3>
+        </OrderDetails>
+        <Checkout>Checkout</Checkout>
       </Order>
     </Main>
   );

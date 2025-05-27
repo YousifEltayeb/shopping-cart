@@ -3,7 +3,6 @@ import useFilms from "../hooks/useFilms.jsx";
 const Main = styled.main`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
-
   gap: 3rem;
   padding: 1rem;
 `;
