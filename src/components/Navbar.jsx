@@ -42,7 +42,7 @@ const Navbar = ({ products }) => {
         <Link to="/Store">Store</Link>
         <StyleCheckout>
           <Link to="/Cart" aria-label="Cart">
-            Checkout
+            Cart
           </Link>
           <Span>
             {" "}
