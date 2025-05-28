@@ -4,7 +4,6 @@ import Navbar from "../components/Navbar";
 import Welcome from "../components/Welcome";
 import Store from "../routes/Store";
 import Cart from "../routes/Cart";
-import Root from "../routes/root";
 import { Routes, Route, MemoryRouter } from "react-router";
 import userEvent from "@testing-library/user-event";
 const products = [];

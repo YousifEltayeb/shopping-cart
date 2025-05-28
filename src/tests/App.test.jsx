@@ -4,13 +4,13 @@ import { Routes, Route, MemoryRouter, BrowserRouter } from "react-router";
 import userEvent from "@testing-library/user-event";
 import App from "../App.jsx";
 describe("Navigating", () => {
-  const user = userEvent.setup();
   it("full app rendering/navigating", async () => {
+    const user = userEvent.setup();
     render(
       <MemoryRouter initialEntries={["/"]}>
         <App />
       </MemoryRouter>,
     );
+    expect(screen.getByRole("main", { name: "elcome" })).toBeInTheDocument();
   });
-  expect(screen.getByRole("main", { name: "Welcome" })).toBeInTheDocument();
 });
