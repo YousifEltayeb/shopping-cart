@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext } from "react-router";
 const API_KEY = import.meta.env.VITE_TMBD_KEY;
 const useFilms = () => {
   const [products, setProducts] = useOutletContext();

@@ -1,6 +1,5 @@
 import styled from "styled-components";
-import { useOutletContext } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useOutletContext, Link } from "react-router";
 const Main = styled.main`
   display: grid;
   grid-template-columns: 1fr 1fr;

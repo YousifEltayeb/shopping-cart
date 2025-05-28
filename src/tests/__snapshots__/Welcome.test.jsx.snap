@@ -8,12 +8,31 @@ exports[`Welcome > Welcome message is rendered 1`] = `
     <h1>
       Welcome To 
       <span
-        class="sc-FEMpB cyBtsW"
+        class="sc-FEMpB dCbcyi"
       >
         PickFlick
       </span>
        
     </h1>
+    <p>
+      We specilize in selling the best animation flicks
+    </p>
+    <div
+      class="sc-gjcoXW eRhIVL"
+    >
+      <a
+        data-discover="true"
+        href="/Store"
+      >
+        Store
+      </a>
+      <a
+        data-discover="true"
+        href="/Cart"
+      >
+        Cart
+      </a>
+    </div>
   </main>
 </div>
 `;

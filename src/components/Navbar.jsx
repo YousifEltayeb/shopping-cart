@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { ShoppingCart } from "lucide-react";
@@ -29,7 +29,7 @@ const StyleLinks = styled.div`
 const Img = styled.img`
   width: 150px;
 `;
-const Navbar = ({ products }) => {
+const Navbar = ({ products = [] }) => {
   const numberOfProductsInCart =
     products.filter((product) => product.inCart).length || 0;
   return (
