@@ -1,21 +1,14 @@
 import { describe, it, expect, vi } from "vitest";
-
 import { render, screen } from "@testing-library/react";
 import Navbar from "../components/Navbar";
 import Welcome from "../components/Welcome";
 import Store from "../routes/Store";
 import Cart from "../routes/Cart";
 import Root from "../routes/root";
-import {
-  Routes,
-  Route,
-  MemoryRouter,
-  BrowserRouter,
-  useOutletContext,
-} from "react-router";
+import { Routes, Route, MemoryRouter } from "react-router";
 import userEvent from "@testing-library/user-event";
-// vi.mock("react-router-dom");
 const products = [];
+const setProducts = vi.fn();
 describe("Navbar", () => {
   it("Store and cart links are rendered", () => {
     const { container } = render(
@@ -32,7 +25,10 @@ describe("Navbar", () => {
         <Navbar products={products} />
         <Routes>
           <Route path="/" element={<Welcome />} />
-          <Route path="/Store" element={<Store />} />
+          <Route
+            path="/Store"
+            element={<Store context={[products, setProducts]} />}
+          />
         </Routes>
       </MemoryRouter>,
     );
