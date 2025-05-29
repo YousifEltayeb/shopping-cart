@@ -46,12 +46,12 @@ const Cart = () => {
   const orderTotal = inCartQuantity * 20;
   if (inCartProducts.length === 0) {
     return (
-      <>
+      <Main aria-label="Cart">
         <h1>Cart is empty</h1>
         <h2>
           <Link to="/store"> return to store to addd products</Link>
         </h2>
-      </>
+      </Main>
     );
   }
   return (

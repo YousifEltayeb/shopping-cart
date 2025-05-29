@@ -2,7 +2,6 @@ import { Link } from "react-router";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { ShoppingCart } from "lucide-react";
-
 const Nav = styled.nav`
   padding: 12px;
   display: flex;

@@ -2,7 +2,10 @@
 
 exports[`ErrorPage > Error message is rendered 1`] = `
 <div>
-  <div>
+  <main
+    aria-label="ErrorPage"
+    class="sc-FEMpB"
+  >
     <h1>
       Oh no, this route does not exist!
     </h1>
@@ -12,6 +15,6 @@ exports[`ErrorPage > Error message is rendered 1`] = `
     >
       You can go back to the home page by clicking here, though!
     </a>
-  </div>
+  </main>
 </div>
 `;
