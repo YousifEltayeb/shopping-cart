@@ -7,16 +7,14 @@ import * as rrd from "react-router";
 
 describe("Store", () => {
   const [products, setProducts] = [];
-  let mockData = [products, setProducts];
-  vi.mock("react-router-dom");
+  // let mockData = [products, setProducts];
+  // vi.mock("react-router-dom");
 
   it("Store is rendered", async () => {
     // rrd.useOutletContext.mockReturnValue(mockData);
     const { container } = render(
       <MemoryRouter>
-        <Routes>
-          <Route element={<Store />} />
-        </Routes>
+        <Store context={[products, setProducts]} />
       </MemoryRouter>,
     );
 

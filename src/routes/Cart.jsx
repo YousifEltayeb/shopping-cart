@@ -36,6 +36,7 @@ const Order = styled.section`
   align-items: center;
   padding: 64px;
 `;
+const EmptyCart = styled.main``;
 const Cart = () => {
   const [products] = useOutletContext();
   const inCartProducts = products.filter((product) => product.inCart === true);
@@ -46,12 +47,12 @@ const Cart = () => {
   const orderTotal = inCartQuantity * 20;
   if (inCartProducts.length === 0) {
     return (
-      <Main aria-label="Cart">
+      <EmptyCart aria-label="Cart">
         <h1>Cart is empty</h1>
         <h2>
           <Link to="/store"> return to store to addd products</Link>
         </h2>
-      </Main>
+      </EmptyCart>
     );
   }
   return (
