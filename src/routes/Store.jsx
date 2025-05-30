@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { useOutletContext } from "react-router";
-import useFilms from "../hooks/useFilms.jsx";
+import useFilms from "../hooks/useFilms.js";
+import { changeQuantity, getUpdatedProducts } from "../utils/utils.js";
 const Main = styled.main`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
@@ -37,33 +37,11 @@ const AddToCartButton = styled.button`
   margin-top: auto;
 `;
 const Store = () => {
-  const [products, setProducts] = useOutletContext();
-  const { error, loading } = useFilms(products, setProducts);
-  const changeQuantity = (clickedButton) => {
-    const inputFieldElm = clickedButton.parentNode.querySelector("input");
-    if (clickedButton.textContent === "+") {
-      inputFieldElm.value = ++inputFieldElm.value;
-    } else if (clickedButton.textContent === "-" && inputFieldElm.value > 0) {
-      inputFieldElm.value = --inputFieldElm.value;
-    }
-  };
-  const addToCart = (targetElm, filmID) => {
-    const inputFieldElmValue =
-      targetElm.parentNode.querySelector("input").value;
-    const filmIndex = products.findIndex((product) => product.id === filmID);
-    if (inputFieldElmValue <= 0) {
-      alert("Quantity cannot be 0");
-      return;
-    }
-    const newProducts = [...products];
-    newProducts[filmIndex].inCart = true;
-    newProducts[filmIndex].quantity = Number(inputFieldElmValue);
-    setProducts(newProducts);
-  };
+  const { products, error, loading, setProducts } = useFilms();
   if (loading) return <Main aria-label="Store">Loading...</Main>;
   if (error)
     return (
-      <Main aria-label="Store">
+      <Main data-testid="api-error" aria-label="Store">
         A network error was encountered <br />
         {error}
       </Main>
@@ -84,7 +62,7 @@ const Store = () => {
               >
                 -
               </button>
-              <QuantityInput type="number" />
+              <QuantityInput type="number" min="1" required />
               <button
                 id="increment"
                 onClick={(e) => {
@@ -96,7 +74,7 @@ const Store = () => {
             </Quantity>
             <AddToCartButton
               onClick={(e) => {
-                addToCart(e.target, product.id);
+                setProducts(getUpdatedProducts(products, e.target, product.id));
               }}
             >
               Add to cart

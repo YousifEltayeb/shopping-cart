@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
+import { useOutletContext } from "react-router";
 const API_KEY = import.meta.env.VITE_TMBD_KEY;
-const useFilms = (products, setProducts) => {
+const useFilms = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [baseImgURL, setBaseImgURL] = useState("");
   const [imgSize, setImgSize] = useState("");
+  const [products, setProducts] = useOutletContext();
   useEffect(() => {
     (async () => {
       // if we already called the api and data is in products no need to call again
@@ -67,7 +69,7 @@ const useFilms = (products, setProducts) => {
         .finally(() => setLoading(false));
     })();
   }, [products.length, setProducts, baseImgURL, imgSize]);
-  return { error, loading };
+  return { products, error, loading, setProducts };
 };
 
 export default useFilms;

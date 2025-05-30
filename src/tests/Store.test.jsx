@@ -1,15 +1,15 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import Store from "../routes/Store";
-import { Routes, Route, MemoryRouter } from "react-router";
+import Cart from "../routes/Cart.jsx";
 import userEvent from "@testing-library/user-event";
 import { useOutletContext } from "react-router";
-// const setProducts = vi.fn();
-// vi.mock("react-router", async () => ({
-//   ...vi.importActual("react-router"),
-//   useOutletContext: () => vi.fn(),
-// }));
+import useFilms from "../hooks/useFilms.js";
+vi.mock("../hooks/useFilms.js");
 vi.mock("react-router");
+// setup values returned by useOutletContext & useFilms
+const emptyProducts = [];
+const setProducts = vi.fn();
 const products = [
   {
     id: 1,
@@ -17,28 +17,62 @@ const products = [
     posterPath: "some/path",
     inCart: false,
     price: 20,
-    quantity: 1,
+    quantity: 0,
   },
 ];
-const setProducts = vi.fn();
 describe("Store", () => {
-  it("Store is loading", () => {
-    const emptyProducts = [];
-    useOutletContext.mockReturnValue([emptyProducts]);
+  it("Store loading is displayed", () => {
+    const loading = true;
+    const error = false;
+    useFilms.mockReturnValue({ emptyProducts, error, loading, setProducts });
     const { container } = render(<Store />);
 
+    // displays "Loading..."
     expect(container).toMatchSnapshot();
   });
 
-  it("Clicking add to cart and increment updates proprties correctly", async () => {
+  it("Store displays products when useFilms returns products", async () => {
+    const error = false;
+    const loading = false;
+    useFilms.mockReturnValue({ products, error, loading, setProducts });
+    render(<Store />);
+    expect(await screen.findByText("some title")).toBeVisible();
+  });
+  it("Adding products to cart", async () => {
+    const error = false;
+    const loading = false;
+    useFilms.mockReturnValue({ products, error, loading, setProducts });
     useOutletContext.mockReturnValue([products, setProducts]);
     const user = userEvent.setup();
-    render(<Store />);
-
-    await user.click(screen.getByRole("button", { name: "+" }));
-    await user.click(screen.getByRole("button", { name: "Add to cart" }));
-
-    expect(products[0]).toEqual({ ...products[0], quantity: 1, inCart: true });
+    const { rerender } = render(
+      <>
+        <Store />
+        <Cart />
+      </>,
+    );
+    const incrementButton = screen.getByRole("button", { name: "+" });
+    const addToCartBtn = screen.getByRole("button", { name: "Add to cart" });
+    await user.click(incrementButton);
+    // disaply cart is empty before adding a product to cart
+    expect(screen.getByTestId("empty-cart")).toBeInTheDocument();
+    expect(screen.queryByTestId("non-empty-cart")).toBe(null);
+    await user.click(addToCartBtn);
+    rerender(
+      <>
+        <Store />
+        <Cart />
+      </>,
+    );
+    // display the element with the products in the cart
+    expect(screen.getByTestId("non-empty-cart")).toBeInTheDocument();
+    expect(screen.queryByTestId("empty-cart")).toBe(null);
   });
-  it("It doesn't update inCart or quantity");
+
+  it("Display errors from api", async () => {
+    const error = "some error";
+    const loading = false;
+    useFilms.mockReturnValue({ products, error, loading, setProducts });
+    render(<Store />);
+    expect(screen.getByTestId("api-error")).toBeInTheDocument();
+  });
 });

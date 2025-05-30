@@ -10,3 +10,14 @@ exports[`Store > Store is loading 1`] = `
   </main>
 </div>
 `;
+
+exports[`Store > Store loading is displayed 1`] = `
+<div>
+  <main
+    aria-label="Store"
+    class="sc-FEMpB cRahFd"
+  >
+    Loading...
+  </main>
+</div>
+`;
