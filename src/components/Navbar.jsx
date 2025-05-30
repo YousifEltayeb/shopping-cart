@@ -32,7 +32,7 @@ const Navbar = ({ products = [] }) => {
   const numberOfProductsInCart =
     products.filter((product) => product.inCart).length || 0;
   return (
-    <Nav>
+    <Nav data-testid="navbar">
       <Link to="/">
         <Img src="../public/logo.png" alt="Logo" />
       </Link>

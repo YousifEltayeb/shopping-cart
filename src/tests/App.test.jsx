@@ -57,4 +57,26 @@ describe("Navigating", () => {
     );
     expect(screen.getByRole("main", { name: "ErrorPage" })).toBeInTheDocument();
   });
+  it("Renders products in cart after adding adding to cart", async () => {
+    const user = userEvent.setup();
+    render(
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>,
+    );
+
+    const storeLink = screen.getByRole("link", { name: "Store" });
+    await user.click(storeLink);
+    expect(screen.getByRole("main", { name: "Store" })).toBeInTheDocument();
+    // add the first product to cart
+    const products = await screen.findAllByTestId("product-card");
+    const inputField = products[0].querySelector("input");
+    inputField.value = 1;
+    const addToCartBtn = products[0].querySelector(
+      "[data-testid='add-to-cart-button']",
+    );
+    await user.click(addToCartBtn);
+    const navbar = screen.getByRole("navigation");
+    console.log(navbar);
+  });
 });

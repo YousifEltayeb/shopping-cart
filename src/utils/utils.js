@@ -10,9 +10,10 @@ const getUpdatedProducts = (products, targetElm, filmID) => {
   const inputFieldElmValue = targetElm.parentNode.querySelector("input").value;
   const filmIndex = products.findIndex((product) => product.id === filmID);
   if (inputFieldElmValue <= 0) {
-    alert("Quantity cannot be 0");
-    return;
+    alert("Quantity cannot be less than 1");
+    throw new Error("Quantity cannot be 0");
   }
+
   const newProducts = [...products];
   newProducts[filmIndex].inCart = true;
   newProducts[filmIndex].quantity = Number(inputFieldElmValue);

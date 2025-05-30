@@ -48,7 +48,6 @@ const useFilms = () => {
           return response.json();
         })
         .then((json) => {
-          console.log("api call");
           const newProductsArray = [];
           const fetchedFilms = json.results;
           fetchedFilms.forEach((film) => {

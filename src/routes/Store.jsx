@@ -50,7 +50,7 @@ const Store = () => {
     <Main aria-label="Store">
       {products.map((product) => {
         return (
-          <Card key={product.id}>
+          <Card data-testid="product-card" key={product.id}>
             <img src={product.posterPath} alt="film poster" />
             <h4>{product.title}</h4>
             <Quantity>
@@ -73,6 +73,7 @@ const Store = () => {
               </button>
             </Quantity>
             <AddToCartButton
+              data-testid="add-to-cart-button"
               onClick={(e) => {
                 setProducts(getUpdatedProducts(products, e.target, product.id));
               }}
