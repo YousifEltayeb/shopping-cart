@@ -1,3 +1,12 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Store > Store is rendered 1`] = `<div />`;
+exports[`Store > Store is loading 1`] = `
+<div>
+  <main
+    aria-label="Store"
+    class="sc-FEMpB cRahFd"
+  >
+    Loading...
+  </main>
+</div>
+`;

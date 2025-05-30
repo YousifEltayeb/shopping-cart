@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useOutletContext } from "react-router";
 import useFilms from "../hooks/useFilms.jsx";
 const Main = styled.main`
   display: grid;
@@ -36,7 +37,8 @@ const AddToCartButton = styled.button`
   margin-top: auto;
 `;
 const Store = () => {
-  const { products, setProducts, error, loading } = useFilms();
+  const [products, setProducts] = useOutletContext();
+  const { error, loading } = useFilms(products, setProducts);
   const changeQuantity = (clickedButton) => {
     const inputFieldElm = clickedButton.parentNode.querySelector("input");
     if (clickedButton.textContent === "+") {

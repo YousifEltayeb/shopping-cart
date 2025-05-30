@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import { useOutletContext } from "react-router";
 const API_KEY = import.meta.env.VITE_TMBD_KEY;
-const useFilms = () => {
-  const [products, setProducts] = useOutletContext();
+const useFilms = (products, setProducts) => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [baseImgURL, setBaseImgURL] = useState("");
@@ -69,7 +67,7 @@ const useFilms = () => {
         .finally(() => setLoading(false));
     })();
   }, [products.length, setProducts, baseImgURL, imgSize]);
-  return { products, setProducts, error, loading };
+  return { error, loading };
 };
 
 export default useFilms;
