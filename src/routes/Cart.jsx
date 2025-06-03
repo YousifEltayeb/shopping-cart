@@ -75,7 +75,7 @@ const Cart = () => {
         <h2>Order Summery</h2>
         <OrderDetails>
           <h3>Total ({inCartQuantity} items)</h3>
-          <h3>{orderTotal}$</h3>
+          <h3 data-testid="total">{orderTotal}$</h3>
         </OrderDetails>
         <Checkout>Checkout</Checkout>
       </Order>

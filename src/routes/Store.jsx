@@ -38,7 +38,12 @@ const AddToCartButton = styled.button`
 `;
 const Store = () => {
   const { products, error, loading, setProducts } = useFilms();
-  if (loading) return <Main aria-label="Store">Loading...</Main>;
+  if (loading)
+    return (
+      <Main data-testid="loading" aria-label="Store">
+        Loading...
+      </Main>
+    );
   if (error)
     return (
       <Main data-testid="api-error" aria-label="Store">
@@ -50,21 +55,28 @@ const Store = () => {
     <Main aria-label="Store">
       {products.map((product) => {
         return (
-          <Card data-testid="product-card" key={product.id}>
+          <Card key={product.id}>
             <img src={product.posterPath} alt="film poster" />
-            <h4>{product.title}</h4>
+            <h4 data-testid="product-title">{product.title}</h4>
             <Quantity>
               <button
                 id="decrement"
+                data-testid="decrement-button"
                 onClick={(e) => {
                   changeQuantity(e.target);
                 }}
               >
                 -
               </button>
-              <QuantityInput type="number" min="1" required />
+              <QuantityInput
+                data-testid="quantity-input"
+                type="number"
+                min="1"
+                required
+              />
               <button
                 id="increment"
+                data-testid="increment-button"
                 onClick={(e) => {
                   changeQuantity(e.target);
                 }}

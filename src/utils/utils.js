@@ -11,12 +11,13 @@ const getUpdatedProducts = (products, targetElm, filmID) => {
   const filmIndex = products.findIndex((product) => product.id === filmID);
   if (inputFieldElmValue <= 0) {
     alert("Quantity cannot be less than 1");
-    throw new Error("Quantity cannot be 0");
+    return products;
   }
 
   const newProducts = [...products];
   newProducts[filmIndex].inCart = true;
   newProducts[filmIndex].quantity = Number(inputFieldElmValue);
+
   return newProducts;
 };
 export { changeQuantity, getUpdatedProducts };

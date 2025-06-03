@@ -46,7 +46,9 @@ const Navbar = ({ products = [] }) => {
           <Span>
             {" "}
             <ShoppingCart width="24px" />
-            {numberOfProductsInCart}{" "}
+            <span data-testid="nav-num-of-products">
+              {numberOfProductsInCart}{" "}
+            </span>
           </Span>
         </StyleCheckout>
       </StyleLinks>
