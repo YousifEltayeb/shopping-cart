@@ -63,7 +63,7 @@ const Cart = () => {
             <Item key={product.id}>
               <Poster src={product.posterPath} alt="film poster" width="auto" />
               <h4>{product.title}</h4>
-              <div>{product.quantity}x</div>
+              <div data-testid="product-quantity">{product.quantity}x</div>
               <div>
                 <b>{product.price}$</b>
               </div>

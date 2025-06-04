@@ -4,6 +4,7 @@ exports[`Navbar > Store and cart links are rendered 1`] = `
 <div>
   <nav
     class="sc-FEMpB dnndGr"
+    data-testid="navbar"
   >
     <a
       data-discover="true"
@@ -70,8 +71,12 @@ exports[`Navbar > Store and cart links are rendered 1`] = `
               d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"
             />
           </svg>
-          0
-           
+          <span
+            data-testid="nav-num-of-products"
+          >
+            0
+             
+          </span>
         </span>
       </div>
     </div>
