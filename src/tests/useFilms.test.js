@@ -1,11 +1,8 @@
 import { beforeEach, vi, describe, it, expect } from "vitest";
 import { waitFor, renderHook } from "@testing-library/react";
 import useFilms from "../hooks/useFilms.js";
-// import { useOutletContext } from "react-router";
-// vi.mock("react-router");
-global.fetch = vi.fn();
 describe("useFilms hook default values", () => {
-  // useOutletContext.mockReturnValue([[], vi.fn()]);
+  global.fetch = vi.fn();
   it("Returns expected initial values for products, error, loading", () => {
     const { result } = renderHook(() => useFilms());
     const { fetchedProducts, error, loading } = result.current;

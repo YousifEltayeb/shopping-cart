@@ -2,6 +2,7 @@ import { Link } from "react-router";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { ShoppingCart } from "lucide-react";
+import logo from "../../public/logo.png";
 const Nav = styled.nav`
   padding: 12px;
   display: flex;
@@ -34,7 +35,7 @@ const Navbar = ({ products = [] }) => {
   return (
     <Nav data-testid="navbar">
       <Link to="/">
-        <Img src="../public/logo.png" alt="Logo" />
+        <Img src={logo} alt="Logo" />
       </Link>
       <StyleLinks>
         <Link to="/">Home</Link>
