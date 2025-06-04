@@ -4,8 +4,6 @@ const API_KEY = import.meta.env.VITE_TMBD_KEY;
 const useFilms = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [baseImgURL, setBaseImgURL] = useState("");
-  const [imgSize, setImgSize] = useState("");
   const [products, setProducts] = useOutletContext();
   useEffect(() => {
     (async () => {
@@ -23,22 +21,6 @@ const useFilms = () => {
           Authorization: `Bearer ${API_KEY}`,
         },
       };
-      const configURL = "https://api.themoviedb.org/3/configuration";
-      const configOptions = {
-        method: "GET",
-        headers: {
-          accept: "application/json",
-          Authorization: `Bearer ${API_KEY}`,
-        },
-      };
-      // fetch img base url and size
-      await fetch(configURL, configOptions)
-        .then((res) => res.json())
-        .then((json) => {
-          setBaseImgURL(json.images.base_url);
-          setImgSize(json.images.poster_sizes[3]);
-        })
-        .catch((error) => setError(error));
       // fetch films
       fetch(url, options)
         .then((response) => {
@@ -51,7 +33,7 @@ const useFilms = () => {
           const newProductsArray = [];
           const fetchedFilms = json.results;
           fetchedFilms.forEach((film) => {
-            const imgURL = baseImgURL + imgSize + film.poster_path;
+            const imgURL = "https://image.tmdb.org/t/p/w780" + film.poster_path;
             const newProduct = {
               id: film.id,
               title: film.title,
@@ -67,7 +49,7 @@ const useFilms = () => {
         .catch((err) => setError(err))
         .finally(() => setLoading(false));
     })();
-  }, [products.length, setProducts, baseImgURL, imgSize]);
+  }, [products.length, setProducts]);
   return { products, error, loading, setProducts };
 };
 
