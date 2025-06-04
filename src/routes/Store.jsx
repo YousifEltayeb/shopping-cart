@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useOutletContext } from "react-router";
 import useFilms from "../hooks/useFilms.js";
 import { changeQuantity, getUpdatedProducts } from "../utils/utils.js";
 const Main = styled.main`
@@ -37,7 +38,9 @@ const AddToCartButton = styled.button`
   margin-top: auto;
 `;
 const Store = () => {
-  const { products, error, loading, setProducts } = useFilms();
+  const [products, setProducts] = useOutletContext();
+  const { fetchedProducts, error, loading } = useFilms();
+  setProducts(fetchedProducts);
   if (loading)
     return (
       <Main data-testid="loading" aria-label="Store">

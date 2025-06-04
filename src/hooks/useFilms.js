@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
-import { useOutletContext } from "react-router";
 const API_KEY = import.meta.env.VITE_TMBD_KEY;
 const useFilms = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [products, setProducts] = useOutletContext();
+  const [fetchedProducts, setFetchedProducts] = useState([]);
   useEffect(() => {
     (async () => {
       // if we already called the api and data is in products no need to call again
-      if (products.length > 0) {
+      if (fetchedProducts.length > 0) {
         setLoading(false);
         return;
       }
@@ -33,7 +32,8 @@ const useFilms = () => {
           const newProductsArray = [];
           const fetchedFilms = json.results;
           fetchedFilms.forEach((film) => {
-            const imgURL = "https://image.tmdb.org/t/p/w780" + film.poster_path;
+            const imgURL =
+              "https://image.tmdb.org/t/p/w780" + film.poster_path || "";
             const newProduct = {
               id: film.id,
               title: film.title,
@@ -44,13 +44,13 @@ const useFilms = () => {
             };
             newProductsArray.push(newProduct);
           });
-          setProducts(newProductsArray);
+          setFetchedProducts(newProductsArray);
         })
         .catch((err) => setError(err))
         .finally(() => setLoading(false));
     })();
-  }, [products.length, setProducts]);
-  return { products, error, loading, setProducts };
+  }, [fetchedProducts.length, setFetchedProducts]);
+  return { fetchedProducts, error, loading };
 };
 
 export default useFilms;

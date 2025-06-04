@@ -15,6 +15,7 @@ describe("Store", () => {
   });
 
   it("Store loading is displayed", () => {
+    useOutletContext.mockReturnValue([[], vi.fn()]);
     useFilms.mockReturnValue({
       products: [],
       error: false,
@@ -45,6 +46,7 @@ describe("Store", () => {
       loading: false,
       setProducts,
     });
+    useOutletContext.mockReturnValue([products, vi.fn()]);
     render(<Store />);
     expect(await screen.findByText("some title")).toBeVisible();
   });
@@ -65,7 +67,7 @@ describe("Store", () => {
       loading: false,
       setProducts,
     });
-    useOutletContext.mockReturnValue([products]);
+    useOutletContext.mockReturnValue([products, vi.fn()]);
     const user = userEvent.setup();
     const { rerender } = render(
       <>
@@ -109,7 +111,7 @@ describe("Store", () => {
       loading: false,
       setProducts,
     });
-    useOutletContext.mockReturnValue([products]);
+    useOutletContext.mockReturnValue([products, vi.fn()]);
     const user = userEvent.setup();
     const { rerender } = render(
       <>
@@ -150,7 +152,7 @@ describe("Store", () => {
       loading: false,
       setProducts,
     });
-    useOutletContext.mockReturnValue([products]);
+    useOutletContext.mockReturnValue([products, vi.fn()]);
     const user = userEvent.setup();
     const { rerender } = render(
       <>
@@ -191,7 +193,7 @@ describe("Store", () => {
       loading: false,
       setProducts,
     });
-    useOutletContext.mockReturnValue([products]);
+    useOutletContext.mockReturnValue([products, vi.fn()]);
     const user = userEvent.setup();
     const { rerender } = render(
       <>

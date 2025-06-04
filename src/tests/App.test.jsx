@@ -3,9 +3,6 @@ import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
 import userEvent from "@testing-library/user-event";
 import App from "../App.jsx";
-import useFilms from "../hooks/useFilms.js";
-vi.mock("../hooks/useFilms.js");
-const setProducts = vi.fn();
 
 describe("Navigating", () => {
   afterEach(() => {
@@ -13,12 +10,6 @@ describe("Navigating", () => {
   });
   it("full app rendering/navigating", async () => {
     const user = userEvent.setup();
-    useFilms.mockReturnValue({
-      products: [],
-      error: false,
-      loading: true,
-      setProducts: setProducts,
-    });
     render(
       <MemoryRouter>
         <App />

@@ -61,7 +61,11 @@ const Cart = () => {
         {inCartProducts.map((product) => {
           return (
             <Item key={product.id}>
-              <Poster src={product.posterPath} alt="film poster" width="auto" />
+              <Poster
+                src={product.posterPath}
+                alt={product.title + " " + "poster"}
+                width="auto"
+              />
               <h4>{product.title}</h4>
               <div data-testid="product-quantity">{product.quantity}x</div>
               <div>

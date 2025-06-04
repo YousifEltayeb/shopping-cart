@@ -1,0 +1,16 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Cart tests > Empty cart displays empty-cart element 1`] = `
+<div>
+  <main
+    aria-label="Cart"
+    class="sc-kfeOyU"
+    data-testid="empty-cart"
+  >
+    <h1>
+      Cart is empty
+    </h1>
+    <h2 />
+  </main>
+</div>
+`;
