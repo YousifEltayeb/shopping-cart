@@ -13,7 +13,7 @@ exports[`Navbar > Store and cart links are rendered 1`] = `
       <img
         alt="Logo"
         class="sc-dycHyt iotQst"
-        src="../public/logo.png"
+        src="/public/logo.png"
       />
     </a>
     <div
