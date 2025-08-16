@@ -1,5 +1,5 @@
 import styled from "styled-components";
-const Welcome = () => {
+const Welcome = (): React.JSX.Element => {
   const Span = styled.span`
     color: red;
   `;

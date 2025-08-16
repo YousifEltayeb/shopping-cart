@@ -1,9 +1,17 @@
 import { useEffect, useState } from "react";
 const API_KEY = import.meta.env.VITE_TMBD_KEY;
+interface Product {
+  id: number;
+  title: string;
+  posterPath: string;
+  inCart: false;
+  price: number;
+  quantity: number;
+}
 const useFilms = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [fetchedProducts, setFetchedProducts] = useState([]);
+  const [fetchedProducts, setFetchedProducts] = useState<Product[]>([]);
   useEffect(() => {
     (async () => {
       // if we already called the api and data is in products no need to call again
@@ -29,21 +37,23 @@ const useFilms = () => {
           return response.json();
         })
         .then((json) => {
-          const newProductsArray = [];
+          const newProductsArray: Product[] = [];
           const fetchedFilms = json.results;
-          fetchedFilms.forEach((film) => {
-            const imgURL =
-              "https://image.tmdb.org/t/p/w780" + film.poster_path || "";
-            const newProduct = {
-              id: film.id,
-              title: film.title,
-              posterPath: imgURL,
-              inCart: false,
-              price: 20,
-              quantity: 0,
-            };
-            newProductsArray.push(newProduct);
-          });
+          fetchedFilms.forEach(
+            (film: { id: number; title: string; poster_path: string }) => {
+              const imgURL =
+                "https://image.tmdb.org/t/p/w780" + film.poster_path || "";
+              const newProduct: Product = {
+                id: film.id,
+                title: film.title,
+                posterPath: imgURL,
+                inCart: false,
+                price: 20,
+                quantity: 0,
+              };
+              newProductsArray.push(newProduct);
+            },
+          );
           setFetchedProducts(newProductsArray);
         })
         .catch((err) => setError(err))

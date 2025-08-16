@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { useOutletContext, Link } from "react-router";
+import { Link } from "react-router";
+import { useProducts } from "../App";
 const Main = styled.main`
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -38,7 +39,7 @@ const Order = styled.section`
 `;
 const EmptyCart = styled.main``;
 const Cart = () => {
-  const [products] = useOutletContext();
+  const { products } = useProducts();
   const inCartProducts = products.filter((product) => product.inCart === true);
   const inCartQuantity = inCartProducts.reduce(
     (currentTotal, { quantity }) => currentTotal + quantity,

@@ -1,6 +1,5 @@
 import { Link } from "react-router";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 import { ShoppingCart } from "lucide-react";
 import logo from "../../public/logo.png";
 const Nav = styled.nav`
@@ -29,9 +28,9 @@ const StyleLinks = styled.div`
 const Img = styled.img`
   width: 150px;
 `;
-const Navbar = ({ products = [] }) => {
+const Navbar = ({ context = [{ inCart: false }] }) => {
   const numberOfProductsInCart =
-    products.filter((product) => product.inCart).length || 0;
+    context.filter((context) => context.inCart).length || 0;
   return (
     <Nav data-testid="navbar">
       <Link to="/">
@@ -55,9 +54,6 @@ const Navbar = ({ products = [] }) => {
       </StyleLinks>
     </Nav>
   );
-};
-Navbar.propTypes = {
-  products: PropTypes.array,
 };
 
 export default Navbar;
