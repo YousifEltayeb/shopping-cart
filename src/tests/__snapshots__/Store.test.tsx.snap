@@ -1,0 +1,13 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Store > Store loading is displayed 1`] = `
+<div>
+  <main
+    aria-label="Store"
+    class="sc-FEMpB cRahFd"
+    data-testid="loading"
+  >
+    Loading...
+  </main>
+</div>
+`;

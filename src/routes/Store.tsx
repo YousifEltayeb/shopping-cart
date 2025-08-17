@@ -54,7 +54,8 @@ const Store = () => {
     const filmIndex = updatedProducts.findIndex(
       (product) => product.id === productId,
     );
-    updatedProducts[filmIndex].quantity = newQuantity;
+
+    updatedProducts[filmIndex].quantity = newQuantity < 0 ? 0 : newQuantity;
 
     setProducts(() => updatedProducts);
   };
@@ -63,8 +64,8 @@ const Store = () => {
     const filmIndex = updatedProducts.findIndex(
       (product) => product.id === productId,
     );
-
-    updatedProducts[filmIndex].inCart = true;
+    if (updatedProducts[filmIndex].quantity > 0)
+      updatedProducts[filmIndex].inCart = true;
     setProducts(() => updatedProducts);
   };
   if (loading)

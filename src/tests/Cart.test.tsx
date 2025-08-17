@@ -1,13 +1,32 @@
-import { describe, it, expect, vi } from "vitest";
+import { beforeEach, describe, it, expect, vi, Mock } from "vitest";
 import { render, screen } from "@testing-library/react";
+import { useProducts } from "../App";
+import { MemoryRouter } from "react-router";
 import Cart from "../routes/Cart";
-import { useOutletContext } from "react-router";
-vi.mock("react-router");
+vi.mock("../App", () => ({
+  useProducts: vi.fn(),
+}));
 describe("Cart tests", () => {
+  const mockedUseProducts = useProducts as Mock;
+  beforeEach(() => {
+    vi.clearAllMocks(); // Reset all mocked calls between tests
+  });
   it("Empty cart displays empty-cart element", async () => {
-    useOutletContext.mockReturnValue([[]]);
+    const products = [
+      {
+        inCart: false,
+      },
+    ];
 
-    const { container } = render(<Cart />);
+    mockedUseProducts.mockReturnValue({
+      products,
+      setProducts: vi.fn(),
+    });
+    const { container } = render(
+      <MemoryRouter>
+        <Cart />
+      </MemoryRouter>,
+    );
     expect(container).toMatchSnapshot();
   });
   it("Display products in cart", async () => {
@@ -37,8 +56,12 @@ describe("Cart tests", () => {
         quantity: 1,
       },
     ];
-    useOutletContext.mockReturnValue([products]);
-    render(<Cart />);
+    mockedUseProducts.mockReturnValue({ products });
+    render(
+      <MemoryRouter>
+        <Cart />
+      </MemoryRouter>,
+    );
     // total should be 80
     expect(screen.getByTestId("total").textContent).toBe("80$");
     // film titles should be in the document

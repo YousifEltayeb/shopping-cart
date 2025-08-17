@@ -2,7 +2,7 @@ import { afterEach, vi, describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
 import userEvent from "@testing-library/user-event";
-import App from "../App.jsx";
+import App from "../App";
 
 describe("Navigating", () => {
   afterEach(() => {
@@ -21,10 +21,10 @@ describe("Navigating", () => {
       await screen.findByRole("main", { name: "Welcome" }),
     ).toBeInTheDocument();
     expect(
-      screen.queryByLabelText("main", { name: "Cart" }),
+      screen.queryByRole("main", { name: "Cart" }),
     ).not.toBeInTheDocument();
     expect(
-      screen.queryByLabelText("main", { name: "Store" }),
+      screen.queryByRole("main", { name: "Store" }),
     ).not.toBeInTheDocument();
 
     // Store is Rendered when Store link is clicked
@@ -34,10 +34,10 @@ describe("Navigating", () => {
     await user.click(storeLink);
     expect(screen.getByRole("main", { name: "Store" })).toBeInTheDocument();
     expect(
-      screen.queryByLabelText("main", { name: "Cart" }),
+      screen.queryByRole("main", { name: "Cart" }),
     ).not.toBeInTheDocument();
     expect(
-      screen.queryByLabelText("main", { name: "Welcome" }),
+      screen.queryByRole("main", { name: "Welcome" }),
     ).not.toBeInTheDocument();
     // Loading element is displayed
     expect(screen.getByTestId("loading")).toBeInTheDocument();
@@ -49,10 +49,10 @@ describe("Navigating", () => {
 
     expect(screen.getByRole("main", { name: "Cart" })).toBeInTheDocument();
     expect(
-      screen.queryByLabelText("main", { name: "Store" }),
+      screen.queryByRole("main", { name: "Store" }),
     ).not.toBeInTheDocument();
     expect(
-      screen.queryByLabelText("main", { name: "Welcome" }),
+      screen.queryByRole("main", { name: "Welcome" }),
     ).not.toBeInTheDocument();
   });
   it("Landing on a bad page", async () => {

@@ -2,7 +2,15 @@ import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import Navbar from "../components/Navbar";
 import { MemoryRouter } from "react-router";
-const emptyProducts = [];
+interface Product {
+  id: number;
+  title: string;
+  posterPath: string;
+  inCart: boolean;
+  price: number;
+  quantity: number;
+}
+const emptyProducts: Product[] = [];
 const nonEmptyProducts = [{ title: "New product added to cart", inCart: true }];
 describe("Navbar", () => {
   it("Store and cart links are rendered", () => {
@@ -16,14 +24,14 @@ describe("Navbar", () => {
   it("Displaying number of products in cart", async () => {
     const { rerender } = render(
       <MemoryRouter>
-        <Navbar products={emptyProducts} />
+        <Navbar context={emptyProducts} />
       </MemoryRouter>,
     );
     // first render should be 0
     expect(screen.getByText("0")).toBeVisible();
     rerender(
       <MemoryRouter>
-        <Navbar products={nonEmptyProducts} />
+        <Navbar context={nonEmptyProducts} />
       </MemoryRouter>,
     );
     // pushed a product now should be 1
