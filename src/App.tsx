@@ -8,7 +8,6 @@ import Welcome from "./components/Welcome";
 import ErrorPage from "./components/ErrorPage";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import useFilms from "./hooks/useFilms";
 interface Product {
   id: number;
   title: string;

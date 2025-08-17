@@ -39,7 +39,7 @@ const AddToCartButton = styled.button`
 const Store = () => {
   const { products, setProducts } = useProducts();
   const { fetchedProducts, error, loading } = useFilms();
-  if (fetchedProducts) setProducts(fetchedProducts);
+  if (products.length === 0) setProducts(fetchedProducts);
   const handleQuantityInc = (newQuantity: number, productId: number) => {
     handleQuantityChange(newQuantity, productId);
   };
@@ -66,6 +66,7 @@ const Store = () => {
     );
     if (updatedProducts[filmIndex].quantity > 0)
       updatedProducts[filmIndex].inCart = true;
+    else updatedProducts[filmIndex].inCart = false;
     setProducts(() => updatedProducts);
   };
   if (loading)
