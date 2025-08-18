@@ -1,6 +1,5 @@
 import styled from "styled-components";
-import useFilms from "../hooks/useFilms";
-import { useProducts } from "../App";
+import { useProducts } from "../hooks/useFilms";
 const Main = styled.main`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
@@ -37,37 +36,15 @@ const AddToCartButton = styled.button`
   margin-top: auto;
 `;
 const Store = () => {
-  const { products, setProducts } = useProducts();
-  const { fetchedProducts, error, loading } = useFilms();
-  if (products.length === 0) setProducts(fetchedProducts);
-  const handleQuantityInc = (newQuantity: number, productId: number) => {
-    handleQuantityChange(newQuantity, productId);
-  };
-  const handleQuantityDec = (newQuantity: number, productId: number): void => {
-    handleQuantityChange(newQuantity, productId);
-  };
+  const { products, dispatch, error, loading } = useProducts();
   const handleQuantityChange = (
     newQuantity: number,
     productId: number,
   ): void => {
-    const updatedProducts = [...products];
-    const filmIndex = updatedProducts.findIndex(
-      (product) => product.id === productId,
-    );
-
-    updatedProducts[filmIndex].quantity = newQuantity < 0 ? 0 : newQuantity;
-
-    setProducts(() => updatedProducts);
+    dispatch({ type: "update_quantity", newQuantity, productId });
   };
   const updateProducts = (productId: number) => {
-    const updatedProducts = [...products];
-    const filmIndex = updatedProducts.findIndex(
-      (product) => product.id === productId,
-    );
-    if (updatedProducts[filmIndex].quantity > 0)
-      updatedProducts[filmIndex].inCart = true;
-    else updatedProducts[filmIndex].inCart = false;
-    setProducts(() => updatedProducts);
+    dispatch({ type: "update_products", productId });
   };
   if (loading)
     return (
@@ -94,7 +71,7 @@ const Store = () => {
                 id="decrement"
                 data-testid="decrement-button"
                 onClick={() =>
-                  handleQuantityDec(product.quantity - 1, product.id)
+                  handleQuantityChange(product.quantity - 1, product.id)
                 }
               >
                 -
@@ -113,7 +90,7 @@ const Store = () => {
                 id="increment"
                 data-testid="increment-button"
                 onClick={() =>
-                  handleQuantityInc(product.quantity + 1, product.id)
+                  handleQuantityChange(product.quantity + 1, product.id)
                 }
               >
                 +

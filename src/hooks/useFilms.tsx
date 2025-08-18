@@ -1,21 +1,35 @@
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useState,
+  useContext,
+  createContext,
+  useReducer,
+} from "react";
+import { reducer, ACTIONTYPE } from "../utils/productsReducer";
 const API_KEY = import.meta.env.VITE_TMBD_KEY;
-interface Product {
-  id: number;
-  title: string;
-  posterPath: string;
-  inCart: false;
-  price: number;
-  quantity: number;
-}
-const useFilms = () => {
+import { Product } from "../types/Product";
+const initialContextValue = {
+  products: [] as Product[],
+  dispatch: (action: ACTIONTYPE) => {
+    action;
+  },
+  error: null,
+  loading: true,
+};
+const Context = createContext(initialContextValue);
+
+export const ProductsProvidor = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [fetchedProducts, setFetchedProducts] = useState<Product[]>([]);
+  const [products, dispatch] = useReducer(reducer, []);
   useEffect(() => {
     (async () => {
       // if we already called the api and data is in products no need to call again
-      if (fetchedProducts.length > 0) {
+      if (products.length > 0) {
         setLoading(false);
         return;
       }
@@ -54,13 +68,17 @@ const useFilms = () => {
               newProductsArray.push(newProduct);
             },
           );
-          setFetchedProducts(newProductsArray);
+          dispatch({ type: "load_products", newProductsArray });
         })
         .catch((err) => setError(err))
         .finally(() => setLoading(false));
     })();
-  }, [fetchedProducts.length, setFetchedProducts]);
-  return { fetchedProducts, error, loading };
+  }, [products.length]);
+  return (
+    <Context.Provider value={{ products, dispatch, error, loading }}>
+      {children}
+    </Context.Provider>
+  );
 };
 
-export default useFilms;
+export const useProducts = () => useContext(Context);

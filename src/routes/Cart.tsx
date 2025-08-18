@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router";
-import { useProducts } from "../App";
+import { useProducts } from "../hooks/useFilms";
 const Main = styled.main`
   display: grid;
   grid-template-columns: 1fr 1fr;
