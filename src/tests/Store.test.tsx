@@ -3,22 +3,20 @@ import { render, screen } from "@testing-library/react";
 import Store from "../routes/Store";
 import Cart from "../routes/Cart";
 import userEvent from "@testing-library/user-event";
-import { useProducts } from "../App";
-import useFilms from "../hooks/useFilms";
+import { useProducts } from "../hooks/useFilms";
 import { MemoryRouter } from "react-router";
+import { reducer } from "../utils/productsReducer";
 
-vi.mock("../hooks/useFilms.ts");
-vi.mock("../App", () => ({
+vi.mock("../hooks/useFilms", () => ({
   useProducts: vi.fn(),
 }));
 
 describe("Store", () => {
-  const mockedUseFilms = useFilms as Mock;
   const mockedUseProducts = useProducts as Mock;
   beforeEach(() => {
     vi.clearAllMocks(); // Reset all mocked calls between tests
 
-    const products = [
+    let products = [
       {
         id: 1,
         title: "some title",
@@ -31,27 +29,21 @@ describe("Store", () => {
 
     mockedUseProducts.mockReturnValue({
       products,
-      setProducts: vi.fn(),
-    });
-
-    mockedUseFilms.mockReturnValue({
-      fetchedProducts: products,
       error: null,
       loading: false,
+      dispatch: vi.fn((action) => {
+        products = reducer(products, action);
+      }),
     });
   });
 
   it("Store loading is displayed", () => {
     mockedUseProducts.mockReturnValue({
       products: [],
-      setProducts: vi.fn(),
-    });
-
-    mockedUseFilms.mockReturnValue({
-      fetchedProducts: [],
       error: null,
       loading: true,
     });
+
     const { container } = render(<Store />);
 
     // displays "Loading..."
@@ -165,7 +157,7 @@ describe("Store", () => {
     expect(screen.queryByTestId("non-empty-cart")).toBe(null);
   });
   it("Display errors from api", async () => {
-    mockedUseFilms.mockReturnValue({
+    mockedUseProducts.mockReturnValue({
       error: "some error",
     });
     render(<Store />);

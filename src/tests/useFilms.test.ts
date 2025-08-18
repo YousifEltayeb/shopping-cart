@@ -1,14 +1,15 @@
 import { beforeEach, vi, describe, it, expect } from "vitest";
 import { waitFor, renderHook } from "@testing-library/react";
-import useFilms from "../hooks/useFilms.js";
+import { useProducts, ProductsProvidor } from "../hooks/useFilms";
 
 describe("useFilms hook default values", () => {
   it("Returns expected initial values for products, error, loading", () => {
-    const { result } = renderHook(() => useFilms());
-    const { fetchedProducts, error, loading } = result.current;
-    expect(fetchedProducts.length).toBe(0);
+    const { result } = renderHook(() => useProducts());
+    const { products, dispatch, error, loading } = result.current;
+    expect(products.length).toBe(0);
     expect(error).toBe(null);
     expect(loading).toBe(true);
+    expect(dispatch).toBeDefined();
   });
 });
 describe("Mock fetch response", () => {
@@ -32,23 +33,24 @@ describe("Mock fetch response", () => {
     );
   });
   it("Returns correct product object when fetch is successful", async () => {
-    const { result, rerender } = renderHook(() => useFilms());
+    const { result, rerender } = renderHook(() => useProducts(), {
+      wrapper: ProductsProvidor,
+    });
     rerender();
     await waitFor(() => {
-      expect(result.current).toEqual({
-        fetchedProducts: [
-          {
-            id: 1,
-            title: "some title",
-            posterPath: "https://image.tmdb.org/t/p/w780/some/path",
-            inCart: false,
-            price: 20,
-            quantity: 0,
-          },
-        ],
-        error: null,
-        loading: false,
-      });
+      expect(result.current.products).toEqual([
+        {
+          id: 1,
+          title: "some title",
+          posterPath: "https://image.tmdb.org/t/p/w780/some/path",
+          inCart: false,
+          price: 20,
+          quantity: 0,
+        },
+      ]);
+      expect(result.current.error).toBe(null);
+      expect(result.current.loading).toBe(false);
+      expect(result.current.dispatch).toBeInstanceOf(Function);
     });
   });
 });

@@ -1,9 +1,9 @@
 import { beforeEach, describe, it, expect, vi, Mock } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { useProducts } from "../App";
+import { useProducts } from "../hooks/useFilms";
 import { MemoryRouter } from "react-router";
 import Cart from "../routes/Cart";
-vi.mock("../App", () => ({
+vi.mock("../hooks/useFilms", () => ({
   useProducts: vi.fn(),
 }));
 describe("Cart tests", () => {
@@ -20,7 +20,6 @@ describe("Cart tests", () => {
 
     mockedUseProducts.mockReturnValue({
       products,
-      setProducts: vi.fn(),
     });
     const { container } = render(
       <MemoryRouter>
